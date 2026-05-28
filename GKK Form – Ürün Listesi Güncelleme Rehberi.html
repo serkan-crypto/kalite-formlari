@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!-- saved from url=(0135)file:///C:/Users/serka/AppData/Local/Packages/CLAUDE~1/LOCALC~1/Roaming/Claude/LOCAL-~1/0E956F~1/B4DA93~1/LOCAL_~3/outputs/GKK_UR~1.HTM -->
+<html lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GKK Form – Ürün Listesi Güncelleme Rehberi</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    color: #2d3748;
+    padding: 30px 20px;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 32px 36px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-icon { font-size: 48px; }
+  .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+  .header p { opacity: 0.85; font-size: 14px; }
+
+  /* Section cards */
+  .card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid #ebf4ff;
+    padding-bottom: 12px;
+  }
+  .card-title .badge {
+    background: #2b6cb0;
+    color: white;
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .card-title .badge-green {
+    background: #38a169;
+  }
+
+  /* Steps */
+  .steps { list-style: none; counter-reset: step-counter; }
+  .steps li {
+    counter-increment: step-counter;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .steps li::before {
+    content: counter(step-counter);
+    background: #2b6cb0;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .steps li .step-content { flex: 1; }
+  .steps li .step-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+    color: #2d3748;
+  }
+  .steps li .step-desc {
+    font-size: 13.5px;
+    color: #718096;
+    line-height: 1.6;
+  }
+  .steps li .step-desc strong { color: #2d3748; }
+  .steps li .step-desc code {
+    background: #edf2f7;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-family: 'Consolas', monospace;
+    color: #c05621;
+  }
+
+  /* Bookmark section */
+  .bookmark-box {
+    background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+    border: 2px solid #63b3ed;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .bookmark-box h3 {
+    color: #2b6cb0;
+    font-size: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .drag-hint {
+    font-size: 12px;
+    color: #718096;
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* The actual bookmarklet link */
+  .bookmarklet-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #2b6cb0, #3182ce);
+    color: white !important;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: grab;
+    box-shadow: 0 3px 10px rgba(43,108,176,0.35);
+    transition: transform 0.1s, box-shadow 0.1s;
+    user-select: none;
+  }
+  .bookmarklet-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 16px rgba(43,108,176,0.45);
+    color: white !important;
+  }
+  .bookmarklet-link:active { transform: translateY(0); cursor: grabbing; }
+
+  /* SQL block */
+  .sql-block {
+    background: #1a202c;
+    color: #68d391;
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 10px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* Tips */
+  .tip {
+    background: #fffbeb;
+    border-left: 4px solid #f6ad55;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #744210;
+    line-height: 1.6;
+  }
+  .tip strong { color: #c05621; }
+
+  /* Summary flow */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .flow-step {
+    background: #ebf4ff;
+    border: 1.5px solid #90cdf4;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2b6cb0;
+    text-align: center;
+  }
+  .flow-arrow { font-size: 18px; color: #a0aec0; font-weight: bold; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: #a0aec0;
+    margin-top: 28px;
+    padding-bottom: 10px;
+  }
+
+  /* Install steps */
+  .install-steps { counter-reset: install-counter; list-style: none; }
+  .install-steps li {
+    counter-increment: install-counter;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 13.5px;
+    align-items: flex-start;
+  }
+  .install-steps li::before {
+    content: counter(install-counter);
+    background: #38a169;
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  @media print {
+    body { background: white; padding: 10px; }
+    .card { box-shadow: none; border: 1px solid #e2e8f0; }
+    .bookmarklet-link { background: #2b6cb0 !important; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">📋</div>
+    <div>
+      <h1>GKK Form – Ürün Listesi Güncelleme Rehberi</h1>
+      <p>GSP06-F06 Giriş Kalite Kontrol Formu · Bakearts Endüstriyel · EnterERP Entegrasyonu</p>
+    </div>
+  </div>
+
+  <!-- Quick summary -->
+  <div class="card">
+    <div class="card-title">⚡ Özet Akış</div>
+    <div class="flow">
+      <div class="flow-step">1. EnterERP'i aç</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">2. Veri Stüdyosu'na git</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">3. Bookmark'a tıkla</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">4. 35 sn bekle</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">5. CSV'yi forma yükle</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">✅ Tüm ürünler güncellendi</div>
+    </div>
+    <div class="tip">
+      <strong>Ne zaman yapılmalı?</strong> EnterERP'e yeni ürün eklendiğinde veya ürün adı/kodu değiştiğinde bu adımları takip et.
+    </div>
+  </div>
+
+  <!-- PART 1: One-time setup -->
+  <div class="card">
+    <div class="card-title">
+      🔧 Kurulum <span class="badge badge-green">Bir Kez Yapılır</span>
+    </div>
+
+    <div class="bookmark-box">
+      <h3>📌 Bookmarklet'i Yer İmlerine Ekle</h3>
+      <p style="font-size:13.5px; color:#2d3748; margin-bottom:14px;">
+        Aşağıdaki butonu <strong>yer imleri çubuğuna sürükle</strong> veya sağ tıkla → "Yer imi olarak kaydet":
+      </p>
+      <a class="bookmarklet-link" href="javascript:(async function(){if(typeof monaco===&#39;undefined&#39;){alert(&#39;Önce Analitik → Veri → Veri Stüdyosu sayfasına git!&#39;);return;}var runBtn=Array.from(document.querySelectorAll(&#39;button&#39;)).find(function(b){return b.textContent.indexOf(&#39;Sorguyu&#39;)&gt;=0;});var ed=monaco.editor.getEditors()[0];if(!runBtn||!ed){alert(&#39;Bulunamadı&#39;);return;}var rows=[],hdr=null;for(var o=0;o&lt;=700;o+=100){ed.setValue(&#39;SELECT code,name FROM inventory_products ORDER BY code LIMIT 100 OFFSET &#39;+o);await new Promise(function(r){setTimeout(r,600)});runBtn.click();await new Promise(function(r){setTimeout(r,4000)});var api=document.querySelectorAll(&#39;.ag-root-wrapper&#39;)[2].__agComponent.gridApi;var lines=api.getDataAsCsv().split(&#39;\n&#39;).filter(function(s){return s.trim();});if(o===0){hdr=lines[0];rows=rows.concat(lines.slice(1));}else rows=rows.concat(lines.slice(1));}var a=document.createElement(&#39;a&#39;);a.href=URL.createObjectURL(new Blob([&#39;﻿&#39;+hdr+&#39;\n&#39;+rows.join(&#39;\n&#39;)],{type:&#39;text/csv&#39;}));a.download=&#39;urunler_tumu.csv&#39;;a.click();alert(&#39;✅ &#39;+rows.length+&#39; ürün indirildi! Şimdi formu güncelle.&#39;);})();">
+        🔄 EnterERP Ürün Güncelle
+      </a>
+      <div class="drag-hint">⬆ Bu butonu sürükleyerek Chrome yer imleri çubuğuna bırak · Öneri: "Bakearts" klasörüne ekle</div>
+    </div>
+
+    <ul class="install-steps">
+      <li>Chrome'da yer imleri çubuğunu göster: <strong>Ctrl + Shift + B</strong></li>
+      <li>Yukarıdaki <strong>"🔄 EnterERP Ürün Güncelle"</strong> butonunu yer imleri çubuğuna <strong>sürükle &amp; bırak</strong></li>
+      <li>İstersen yer imlerine sağ tıkla → <em>"Klasör ekle"</em> → <strong>"Bakearts"</strong> klasörü oluştur ve oraya taşı</li>
+      <li>Kurulum tamam — bir daha yapman gerekmez ✅</li>
+    </ul>
+  </div>
+
+  <!-- PART 2: Regular workflow -->
+  <div class="card">
+    <div class="card-title">
+      🔄 Ürün Listesini Güncelleme <span class="badge">Her Güncellemede</span>
+    </div>
+
+    <ul class="steps">
+      <li>
+        <div class="step-content">
+          <div class="step-title">EnterERP'i Chrome'da aç</div>
+          <div class="step-desc">
+            <a href="https://bakearts.entererp.com/" target="_blank" style="color:#2b6cb0;">bakearts.entererp.com</a> adresine git ve giriş yap.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">Veri Stüdyosu'nu aç</div>
+          <div class="step-desc">
+            Sol menüden: <strong>Analitik → Veri → Veri Merkezi</strong> → Sağ üstteki <code>+</code> butonuna tıkla → <strong>Veri Stüdyosu</strong> seç.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">GKK Formunu aç (ayrı sekmede)</div>
+          <div class="step-desc">
+            Dosya konumu:<br>
+            <code style="font-size:11.5px; word-break:break-all;">C:\Users\serka\OneDrive - Bakearts Endüstriyel\BELGELER STR\BAKEARTS\BI\8- ÜRETİM &amp; KALİTE\KALİTE\GKK FORM\GSP06-F06 REV07 _ Giriş KK Formu.html</code>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">EnterERP sekmesine dön ve Bookmark'ı çalıştır</div>
+          <div class="step-desc">
+            Veri Stüdyosu açıkken yer imlerinden <strong>"🔄 EnterERP Ürün Güncelle"</strong>'ye tıkla.<br>
+            <strong>~35 saniye bekle</strong> — otomatik çalışır, hiçbir şeye dokunma.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">"X ürün indirildi" uyarısı gelince Tamam'a bas</div>
+          <div class="step-desc">
+            İndirmeler klasöründe <code>urunler_tumu.csv</code> (veya <code>urunler_tumu(1).csv</code> vs.) dosyası oluşur.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-content">
+          <div class="step-title">CSV dosyasını GKK Formuna yükle</div>
+          <div class="step-desc">
+            GKK Form sekmesine geç → Sayfanın altındaki <strong>"📤 CSV / Excel Yükle"</strong> butonuna tıkla → <code>urunler_tumu.csv</code> dosyasını seç.<br>
+            <strong>"X ürün başarıyla yüklendi!"</strong> mesajı gelince işlem tamam. ✅
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="tip">
+      <strong>💡 İpucu:</strong> Yükleme yaptıktan sonra form localStorage'a kaydeder — tarayıcıyı kapatıp açsan bile liste kaybolmaz. Sadece yeni ürün eklenince bu adımları tekrar yapman yeterli.
+    </div>
+  </div>
+
+  <!-- SQL Reference -->
+  <div class="card">
+    <div class="card-title">🗄️ SQL Referans <span class="badge" style="background:#718096;">İsteğe Bağlı</span></div>
+    <p style="font-size:13.5px; color:#718096; margin-bottom:10px;">
+      Bookmark otomatik çalıştırır, manuel yazmana gerek yok. Ama lazım olursa referans olarak dursun:
+    </p>
+    <div class="sql-block">SELECT code, name
+FROM inventory_products
+ORDER BY code
+LIMIT 100 OFFSET 0   -- 0, 100, 200, ... 700 şeklinde devam eder</div>
+    <div class="tip">
+      <strong>Not:</strong> EnterERP paneli en fazla 100 satır gösteriyor. Bookmark bu sorguyu 8 kez çalıştırarak (OFFSET 0→700) tüm ürünleri topluyor.
+    </div>
+  </div>
+
+  <!-- Troubleshooting -->
+  <div class="card">
+    <div class="card-title">🛠️ Sorun Giderme</div>
+    <ul class="steps" style="counter-reset: step-counter 0;">
+      <li style="counter-increment: none;">
+        <div class="step-content" style="display:flex; flex-direction:column; gap:4px;">
+          <div class="step-title" style="color:#c05621;">❌ "monaco is not defined" hatası</div>
+          <div class="step-desc">Yanlış sayfadasın. <strong>Analitik → Veri → Veri Stüdyosu</strong>'na git, sonra tekrar dene.</div>
+        </div>
+      </li>
+      <li style="counter-increment: none; margin-top:12px;">
+        <div class="step-content" style="display:flex; flex-direction:column; gap:4px;">
+          <div class="step-title" style="color:#c05621;">❌ "Session is locked" / 401 hatası</div>
+          <div class="step-desc">EnterERP oturumu kapanmış. Sayfayı <strong>yenile (F5)</strong>, tekrar giriş yap, hemen bookmark'ı çalıştır.</div>
+        </div>
+      </li>
+      <li style="counter-increment: none; margin-top:12px;">
+        <div class="step-content" style="display:flex; flex-direction:column; gap:4px;">
+          <div class="step-title" style="color:#c05621;">❌ Ürün listede görünmüyor</div>
+          <div class="step-desc">Ürünün <strong>U veya sonrası ile başlayan bir kodu</strong> varsa OFFSET 700+ gerekebilir. Claude'a bildir.</div>
+        </div>
+      </li>
+      <li style="counter-increment: none; margin-top:12px;">
+        <div class="step-content" style="display:flex; flex-direction:column; gap:4px;">
+          <div class="step-title" style="color:#c05621;">❌ Form "500 ürün varsayılan" gösteriyor</div>
+          <div class="step-desc">CSV henüz yüklenmemiş. <strong>CSV / Excel Yükle</strong> butonuyla tekrar yükle.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    Bakearts Endüstriyel · GSP06-F06 GKK Form – EnterERP Entegrasyon Rehberi · 2026
+  </div>
+
+</div>
+
+
+</body></html>
